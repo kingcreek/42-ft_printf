@@ -6,7 +6,7 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:53:12 by imurugar          #+#    #+#             */
-/*   Updated: 2022/09/21 14:53:14 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/10/14 17:12:46 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,24 @@ int	ft_count_numbers(unsigned long long number, int base)
 	return (count);
 }
 
-void	ft_putchar(char c)
+int	ft_putchar(char c)
 {
-	write(1, &c, 1);
+	return (write(1, &c, 1));
 }
 
-void	ft_putstr(char *s)
+int	ft_putstr(char *s)
 {
 	if (!s)
 	{
-		ft_putstr("(null)");
-		return ;
+		return (ft_putstr("(null)"));
 	}
 	while (*s)
 	{
-		ft_putchar(*s);
+		if (ft_putchar(*s) == -1)
+			return (-1);
 		s++;
 	}
+	return (1);
 }
 
 size_t	ft_strlen(const char *str)

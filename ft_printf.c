@@ -6,7 +6,7 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:53:27 by imurugar          #+#    #+#             */
-/*   Updated: 2023/03/14 18:57:57 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/10/14 17:17:00 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,51 +33,53 @@ char	*convert(unsigned long long num, int base, char cmd)
 	return (ptr);
 }
 
-void	ft_parse_arg(char step, va_list arg, int *total_write)
+int	ft_parse_arg(char step, va_list arg, int *total_write)
 {
 	if (step == 'c')
-		ft_parser_char(arg, total_write);
+		return (ft_parser_char(arg, total_write));
 	else if (step == 'd' || step == 'i')
-		ft_parser_integer(arg, total_write, step);
+		return (ft_parser_integer(arg, total_write, step));
 	else if (step == 'u')
-		ft_parser_unsigned_integer(arg, total_write, step);
+		return (ft_parser_unsigned_integer(arg, total_write, step));
 	else if (step == 'o')
-		ft_parser_octal(arg, total_write, step);
+		return (ft_parser_octal(arg, total_write, step));
 	else if (step == 's')
-		ft_parser_string(arg, total_write);
+		return (ft_parser_string(arg, total_write));
 	else if (step == 'x' || step == 'X')
-		ft_parser_hexadecimal(arg, total_write, step);
+		return (ft_parser_hexadecimal(arg, total_write, step));
 	else if (step == 'p')
-		ft_parser_pointer(arg, total_write, step);
+		return (ft_parser_pointer(arg, total_write, step));
 	else
 	{
-		ft_putchar(step);
 		*total_write += 1;
+		return (ft_putchar(step));
 	}
 }
 
 int	ft_printf(const char *str, ...)
 {
 	int				total_write;
-	const char		*step;
 	va_list			arg;
 
 	total_write = 0;
 	va_start(arg, str);
-	step = str;
-	while (*step != '\0')
+	while (*str != '\0')
 	{
-		while (*step != '%')
+		while (*str != '%')
 		{
-			if (*step == '\0')
-				return (total_write);
-			ft_putchar(*step);
-			step++;
+			if (*str == '\0')
+				return (va_end(arg), total_write);
+			if (ft_putchar(*str) == -1)
+				return (-1);
+			str++;
 			total_write++;
 		}
-		step++;
-		ft_parse_arg(*step, arg, &total_write);
-		step++;
+		str++;
+		if (ft_parse_arg(*str, arg, &total_write) == -1)
+			return (-1);
+		if (*str == '\0')
+			return (total_write);
+		str++;
 	}
 	va_end(arg);
 	return (total_write);

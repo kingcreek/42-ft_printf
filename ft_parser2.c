@@ -6,27 +6,32 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:53:22 by imurugar          #+#    #+#             */
-/*   Updated: 2022/09/26 12:12:50 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/10/14 17:12:30 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_parser_hexadecimal(va_list arg, int *total_write, char step)
+int	ft_parser_hexadecimal(va_list arg, int *total_write, char step)
 {
 	long long	i;
 
 	i = va_arg(arg, unsigned int);
-	ft_putstr(convert(i, 16, step));
+	if (ft_putstr(convert(i, 16, step)) == -1)
+		return (-1);
 	*total_write += ft_count_numbers(i, 16);
+	return (0);
 }
 
-void	ft_parser_pointer(va_list arg, int *total_write, char step)
+int	ft_parser_pointer(va_list arg, int *total_write, char step)
 {
 	long long	i;
 
 	i = (unsigned long long)va_arg(arg, void *);
-	ft_putstr("0x");
-	ft_putstr(convert(i, 16, step));
+	if (ft_putstr("0x") == -1)
+		return (-1);
+	if (ft_putstr(convert(i, 16, step)) == -1)
+		return (-1);
 	*total_write += ft_count_numbers(i, 16) + 2;
+	return (1);
 }
