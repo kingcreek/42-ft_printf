@@ -6,7 +6,7 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:53:22 by imurugar          #+#    #+#             */
-/*   Updated: 2023/10/14 17:12:30 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/10/14 17:18:55 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int	ft_parser_pointer(va_list arg, int *total_write, char step)
 	if (ft_putstr(convert(i, 16, step)) == -1)
 		return (-1);
 	*total_write += ft_count_numbers(i, 16) + 2;
-	return (1);
+	return (0);
 }
